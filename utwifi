@@ -141,14 +141,33 @@ function __utwifi-info() {
     fi
 }
 
+__utwifi-completion() {
+    cat <<'EOF'
+#compdef utwifi
+
+_utwifi() {
+    local -a commands=("add:Add UTokyo WiFi and eduroam connections" "update:Update UTokyo WiFi and eduroam connections" "delete:Delete UTokyo WiFi and eduroam connections" "info:Display information about UTokyo WiFi and eduroam connections" "help:Display this help message")
+    _arguments '1: :->subcommand' && return
+    case $state in
+        (subcommand)
+            _describe -t commands 'utwifi subcommand' commands && return
+            ;;
+    esac
+}
+
+compdef _utwifi utwifi
+EOF
+}
+
 function __utwifi-help() {
     echo "Usage: utwifi <subcommand>"
     echo "Subcommands:"
-    echo "  add       Add UTokyo WiFi and eduroam connections"
-    echo "  update    Update UTokyo WiFi and eduroam connections"
-    echo "  delete    Delete UTokyo WiFi and eduroam connections"
-    echo "  info      Display information about UTokyo WiFi and eduroam connections"
-    echo "  help      Display this help message"
+    echo "  add           Add UTokyo WiFi and eduroam connections"
+    echo "  update        Update UTokyo WiFi and eduroam connections"
+    echo "  delete        Delete UTokyo WiFi and eduroam connections"
+    echo "  info          Display information about UTokyo WiFi and eduroam connections"
+    echo "  completion    Generate completion script for zsh"
+    echo "  help          Display this help message"
 }
 
 
