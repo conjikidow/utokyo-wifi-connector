@@ -1,4 +1,5 @@
 mod error;
+mod network;
 mod nm;
 
 fn main() {
