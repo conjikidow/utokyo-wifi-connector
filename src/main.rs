@@ -1,3 +1,4 @@
+mod credentials;
 mod error;
 mod network;
 mod nm;
