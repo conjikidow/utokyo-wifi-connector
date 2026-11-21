@@ -1,0 +1,274 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:best-practices',
+    ':semanticCommitTypeAll(build)',
+  ],
+  ignorePaths: [
+    '.github/workflows/release.yml',
+  ],
+  minimumReleaseAge: '3 days',
+  gitIgnoredAuthors: [
+    'github-actions[bot]@users.noreply.github.com',
+  ],
+  labels: [
+    'automated',
+    'dependencies',
+  ],
+  'git-submodules': {
+    enabled: true,
+  },
+  'pre-commit': {
+    enabled: true,
+  },
+  customManagers: [
+    {
+      customType: 'jsonata',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
+      ],
+      fileFormat: 'yaml',
+      matchStrings: [
+        'jobs.*.steps[$exists(env.ACTIONLINT_VERSION)].{ "currentValue": env.ACTIONLINT_VERSION }',
+      ],
+      depNameTemplate: 'rhysd/actionlint',
+      datasourceTemplate: 'go',
+      packageNameTemplate: 'github.com/rhysd/actionlint',
+      extractVersionTemplate: '^v(?<version>.+)$',
+    },
+    {
+      customType: 'jsonata',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
+      ],
+      fileFormat: 'yaml',
+      matchStrings: [
+        'jobs.*.steps[$substringBefore(uses, "@") = "commitizen-tools/setup-cz"].{ "currentValue": with.version }',
+      ],
+      depNameTemplate: 'commitizen-tools/commitizen',
+      datasourceTemplate: 'pypi',
+      packageNameTemplate: 'commitizen',
+    },
+    {
+      customType: 'jsonata',
+      managerFilePatterns: [
+        '/^dist-workspace\\.toml$/',
+      ],
+      fileFormat: 'toml',
+      matchStrings: [
+        'dist.{ "currentValue": `cargo-dist-version` }',
+      ],
+      depNameTemplate: 'axodotdev/cargo-dist',
+      datasourceTemplate: 'github-releases',
+      extractVersionTemplate: '^v(?<version>.+)$',
+      versioningTemplate: 'semver',
+    },
+    {
+      customType: 'regex',
+      description: 'Update the GitHub Actions that dist pins in dist-workspace.toml for the release workflow it generates, which the github-actions manager does not read',
+      managerFilePatterns: [
+        '/^dist-workspace\\.toml$/',
+      ],
+      matchStrings: [
+        '"(?<depName>actions\\/[^"\\s]+)"\\s*=\\s*"(?<currentDigest>[a-f0-9]{40})"\\s*#\\s*(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+[^\\s]*)',
+      ],
+      datasourceTemplate: 'github-tags',
+      versioningTemplate: 'semver',
+      autoReplaceStringTemplate: '"{{{depName}}}" = "{{{newDigest}}}"  # {{{newValue}}}',
+    },
+    {
+      customType: 'jsonata',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
+      ],
+      fileFormat: 'yaml',
+      matchStrings: [
+        'jobs.*.steps[$exists(env.JSON5_VERSION)].{ "currentValue": env.JSON5_VERSION }',
+      ],
+      depNameTemplate: 'json5/json5',
+      datasourceTemplate: 'npm',
+      packageNameTemplate: 'json5',
+    },
+    {
+      customType: 'jsonata',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
+      ],
+      fileFormat: 'yaml',
+      matchStrings: [
+        'jobs.*.steps[$exists(env.RENOVATE_VERSION)].{ "currentValue": env.RENOVATE_VERSION }',
+      ],
+      depNameTemplate: 'renovatebot/renovate',
+      datasourceTemplate: 'npm',
+      packageNameTemplate: 'renovate',
+    },
+    {
+      customType: 'jsonata',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
+      ],
+      fileFormat: 'yaml',
+      matchStrings: [
+        'jobs.*.steps[$substringBefore(uses, "@") = "rvben/rumdl"].{ "currentValue": with.version }',
+      ],
+      depNameTemplate: 'rvben/rumdl',
+      datasourceTemplate: 'pypi',
+      packageNameTemplate: 'rumdl',
+    },
+    {
+      customType: 'jsonata',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
+      ],
+      fileFormat: 'yaml',
+      matchStrings: [
+        'jobs.*.steps[$exists(env.SHELLCHECK_PY_VERSION)].{ "currentValue": env.SHELLCHECK_PY_VERSION }',
+      ],
+      depNameTemplate: 'shellcheck-py/shellcheck-py',
+      datasourceTemplate: 'pypi',
+      packageNameTemplate: 'shellcheck-py',
+    },
+    {
+      customType: 'jsonata',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
+      ],
+      fileFormat: 'yaml',
+      matchStrings: [
+        'jobs.*.steps[$substringBefore(uses, "@") = "tombi-toml/setup-tombi"].{ "currentValue": with.version }',
+      ],
+      depNameTemplate: 'tombi-toml/tombi',
+      datasourceTemplate: 'github-releases',
+    },
+    {
+      customType: 'jsonata',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
+      ],
+      fileFormat: 'yaml',
+      matchStrings: [
+        'jobs.*.steps[$exists(env.YAMLLINT_VERSION)].{ "currentValue": env.YAMLLINT_VERSION }',
+      ],
+      depNameTemplate: 'adrienverge/yamllint',
+      datasourceTemplate: 'pypi',
+      packageNameTemplate: 'yamllint',
+    },
+  ],
+  lockFileMaintenance: {
+    automerge: true,
+  },
+  packageRules: [
+    {
+      description: 'Follow full semver release tags of GitHub Actions references, as a moving major tag such as v7 can be picked ahead of its release while minimumReleaseAge holds the release back, leaving a pin comment like # v7',
+      matchManagers: [
+        'github-actions',
+      ],
+      matchDepTypes: [
+        'action',
+      ],
+      allowedVersions: '/^v?\\d+\\.\\d+\\.\\d+$/',
+    },
+    {
+      matchFileNames: [
+        '.github/workflows/**',
+        '.pre-commit-config.yaml',
+        'dist-workspace.toml',
+      ],
+      semanticCommitScope: 'deps-dev',
+      labels: [
+        'automated',
+        'dev-dependencies',
+      ],
+    },
+    {
+      matchDepTypes: [
+        'dev-dependencies',
+      ],
+      semanticCommitScope: 'deps-dev',
+      labels: [
+        'automated',
+        'dev-dependencies',
+      ],
+    },
+    {
+      matchManagers: [
+        'pre-commit',
+      ],
+      matchUpdateTypes: [
+        'patch',
+      ],
+      automerge: true,
+    },
+    {
+      matchFileNames: [
+        '.github/workflows/**',
+        'dist-workspace.toml',
+      ],
+      matchUpdateTypes: [
+        'patch',
+      ],
+      automerge: true,
+    },
+    {
+      matchDepNames: [
+        'commitizen-tools/commitizen',
+      ],
+      groupName: 'commitizen',
+    },
+    {
+      description: 'Update the Renovate that validates this config only weekly, as it releases several times a day',
+      extends: [
+        'schedule:weekly',
+      ],
+      matchDepNames: [
+        'renovatebot/renovate',
+      ],
+    },
+    {
+      matchDepNames: [
+        'renovatebot/renovate',
+      ],
+      matchUpdateTypes: [
+        'minor',
+      ],
+      automerge: true,
+    },
+    {
+      matchDepNames: [
+        'rvben/rumdl',
+        'rvben/rumdl-pre-commit',
+      ],
+      groupName: 'rumdl',
+    },
+    {
+      matchDepNames: [
+        'tombi-toml/setup-tombi',
+        'tombi-toml/tombi',
+        'tombi-toml/tombi-pre-commit',
+      ],
+      groupName: 'tombi',
+    },
+    {
+      matchDepNames: [
+        'crate-ci/typos',
+      ],
+      groupName: 'typos',
+    },
+    {
+      matchDepNames: [
+        'adrienverge/yamllint',
+      ],
+      groupName: 'yamllint',
+    },
+    {
+      description: 'Look up the zizmor image on GitHub Releases, as GHCR gives no release timestamps for minimumReleaseAge; hold it one day longer than zizmor-action, as the pinned action rejects zizmor versions released after it and an action release usually follows each zizmor release within a day; and skip the digest pinning from config:best-practices, which would put a commit SHA into the version input',
+      matchDepNames: [
+        'ghcr.io/zizmorcore/zizmor',
+      ],
+      overrideDatasource: 'github-releases',
+      overridePackageName: 'zizmorcore/zizmor',
+      minimumReleaseAge: '4 days',
+      pinDigests: false,
+    },
+  ],
+}

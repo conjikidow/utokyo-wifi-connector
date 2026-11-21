@@ -1,0 +1,164 @@
+# rust-package-template
+
+[![prek](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/j178/prek/master/docs/assets/badge-v0.json)](https://github.com/j178/prek)
+
+This is a template repository for a Rust package.
+
+## Package Setup
+
+Update your package metadata in `Cargo.toml`:
+
+```toml
+[package]
+name = "your-package-name"  # Replace with your package name
+version = "0.1.0"
+edition = "2024"
+description = "A Rust package template"
+readme = "README.md"
+repository = "https://github.com/<owner>/<repo>"  # Replace with your repository URL
+license = "Apache-2.0 OR MIT"  # Replace with your license
+```
+
+This template repository includes [`LICENSE-APACHE`](LICENSE-APACHE) and [`LICENSE-MIT`](LICENSE-MIT) by default.
+They are provided as a template and may be modified, replaced, or removed as needed.
+
+A Rust package can contain multiple crates:
+
+- `src/main.rs` for the default binary crate
+- `src/lib.rs` for an optional library crate (at most one per package)
+- `src/bin/*.rs` for additional binary crates
+
+## Release Management Setup
+
+### Overview
+
+This template uses [release-plz](https://release-plz.dev) to automate releases based on Conventional Commits.
+It opens a release PR and, once merged, publishes the crate to crates.io and (optionally) creates a GitHub Release.
+
+A Rust package can be either:
+
+- **Binary package** (default): includes at least one binary crate.
+  Publishing binaries is done with [dist](https://axodotdev.github.io/cargo-dist/book),
+  which builds per-platform binaries and uploads them to GitHub Releases.
+- **Library-only package**: no binaries.
+  In this case, remove the `dist` configuration and let `release-plz` handle releases only.
+
+### GitHub App Setup (recommended)
+
+Release automation workflows in this template need a GitHub token.
+You can use a Personal Access Token, but a GitHub App is the recommended option.
+The App becomes the author of automation PRs (e.g. `automation-bot[bot]`).
+
+Create a minimal GitHub App:
+
+1. Create the App:
+   - Personal account: <https://github.com/settings/apps/new>
+   - Organization: `https://github.com/organizations/<org>/settings/apps/new`
+2. **GitHub App name**: any name you like (e.g. `automation-bot`).
+3. **Homepage URL**: any URL (your GitHub profile is fine).
+4. **Webhook**: disable it (no URL required).
+5. **Repository permissions**:
+   - `Contents`: Read & write
+   - `Pull requests`: Read & write
+   - If you use protected tags: `Administration`: Read & write
+     (also uncomment `permission-administration` in the `Publish release` job of `.github/workflows/manage-releases.yml`,
+     the workflow that runs `release-plz`)
+   - If you publish binaries with `dist`: `Workflows`: Read & write
+6. (Optional) Limit installation scope to your account only.
+7. Create a **private key** from the App settings page and store it securely.
+
+Install the App on the repository where you will run releases.
+
+Store the credentials as GitHub Actions variables and secrets:
+
+- `GH_APP_CLIENT_ID` (Actions variable): the GitHub App client ID
+- `GH_APP_PRIVATE_KEY` (Actions secret): the GitHub App private key (PEM content)
+
+You can find the secrets page at:
+`https://github.com/<owner>/<repo>/settings/secrets/actions`
+
+### Setup for Binary Package (uses dist)
+
+1. Ensure `.release-plz.toml` has `release = true` under `[workspace]` (this template sets it to `false` by default).
+2. `dist` is already configured via `dist-workspace.toml`.
+   If you need to reconfigure, install `dist` and run `dist init`:
+
+   ```sh
+   cargo binstall cargo-dist
+   dist init
+   ```
+
+### Setup for Library-only Package
+
+1. Ensure `.release-plz.toml` has `release = true` under `[workspace]` (this template sets it to `false` by default).
+2. Remove `dist-workspace.toml`, `.github/workflows/release.yml`, and `.github/workflows/regenerate-release-workflow.yml`.
+3. Delete the `[profile.dist]` section from `Cargo.toml`.
+4. In `.release-plz.toml`, set `git_release_enable = true` so `release-plz` creates GitHub Releases.
+
+### Trusted Publishing (crates.io OIDC)
+
+Enable trusted publishing on crates.io.
+New crates cannot be published via OIDC the first time—run the first `cargo publish` manually.
+
+### References
+
+For more details, see [release-plz](https://release-plz.ieni.dev/docs) and [dist](https://axodotdev.github.io/cargo-dist/book).
+
+## Required Status Check
+
+The CI workflow ends with a `Check CI results` job, which fails if any other job in the workflow failed or was cancelled.
+Require this single check in a branch ruleset for the default branch instead of listing each CI job.
+
+When you add a job to `.github/workflows/ci.yml`, also add it to the `needs` of `check-ci-results`.
+Otherwise, the new job does not block merging when it fails.
+
+If you squash-merge pull requests with the pull request title as the commit message,
+also require the `Lint pull request title` check.
+
+## Pre-commit Hooks Setup
+
+This template recommends using [`prek`](https://prek.j178.dev) (a faster, drop-in alternative to [`pre-commit`](https://pre-commit.com)).
+
+Install `prek` by following its [installation guide](https://prek.j178.dev/installation/), then install the hooks:
+
+```sh
+prek install
+```
+
+If you prefer `pre-commit`, [install it](https://pre-commit.com/#install) and run:
+
+```sh
+pre-commit install
+```
+
+The hook types to install are set by `default_install_hook_types` in `.pre-commit-config.yaml`.
+
+## Commit Message Linting with Commitizen
+
+This template repository enforces [Conventional Commits](https://www.conventionalcommits.org) in pre-commit hooks and CI,
+so your commit messages must follow that format.
+
+You can maintain Conventional Commits manually, but automation tools such as Commitizen or cz-git can help.
+Any tool is fine, but this repository uses [commitizen-tools/commitizen](https://github.com/commitizen-tools/commitizen)
+for checks, so it is recommended.
+
+Install Commitizen:
+
+```sh
+uv tool install commitizen
+```
+
+Use Commitizen instead of `git commit`:
+
+```sh
+cz commit
+```
+
+For more details, see [Commitizen documentation](https://commitizen-tools.github.io/commitizen).
+
+## License
+
+Licensed under either of [Apache License, Version 2.0](LICENSE-APACHE) or [MIT license](LICENSE-MIT) at your option.
+
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this software by you,
+as defined in the Apache-2.0 license, shall be dually licensed as above, without any additional terms or conditions.
