@@ -1,6 +1,9 @@
 # UTokyo Wi-Fi Connector
 
+[![Crates.io](https://img.shields.io/crates/v/utokyo-wifi.svg?style=flat&logo=rust&logoColor=white&label=crates.io)](https://crates.io/crates/utokyo-wifi)
+[![License](https://img.shields.io/crates/l/utokyo-wifi.svg?style=flat)](#license)
 [![prek](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/j178/prek/master/docs/assets/badge-v0.json)](https://github.com/j178/prek)
+[![CI](https://github.com/conjikidow/utokyo-wifi-connector/actions/workflows/ci.yml/badge.svg)](https://github.com/conjikidow/utokyo-wifi-connector/actions/workflows/ci.yml)
 
 An unofficial command-line tool to manage connections to the UTokyo Wi-Fi and eduroam networks.
 
