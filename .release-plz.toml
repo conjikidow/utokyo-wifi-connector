@@ -12,7 +12,7 @@ commit_parsers = [
   { message = "^fix", group = "fixed" },
   { message = "^(perf|refactor)", group = "changed" },
   { message = "^docs", group = "documentation" },
-  { message = "^build\\(deps\\)", group = "dependencies" },
+  { message = "^build\\(deps\\)", group = "dependencies", scope = "" },
   { message = "^build\\(deps-dev\\)", skip = true },
   { message = "^.*", group = "other" },
 ]
