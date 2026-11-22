@@ -19,7 +19,7 @@ and verify the authentication server certificate against the system CA certifica
 ### Prebuilt Binaries
 
 Prebuilt binaries for x86_64 and aarch64 Linux are available from [GitHub Releases](https://github.com/conjikidow/utokyo-wifi-connector/releases).
-To install the latest one into `~/.cargo/bin`, run the installer script:
+To install the latest one into `$CARGO_HOME/bin` (`~/.cargo/bin` by default), run the installer script:
 
 ```sh
 curl --proto '=https' --tlsv1.2 -LsSf \
