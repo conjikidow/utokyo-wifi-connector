@@ -29,6 +29,8 @@ curl --proto '=https' --tlsv1.2 -LsSf \
   https://github.com/conjikidow/utokyo-wifi-connector/releases/latest/download/utokyo-wifi-installer.sh | sh
 ```
 
+To install a specific version, replace `latest/download` with `download/v<version>` in the URL, for example `download/v0.1.0`.
+
 ### Cargo
 
 With [cargo-binstall](https://github.com/cargo-bins/cargo-binstall), install a prebuilt binary:
@@ -42,6 +44,8 @@ Or build it from source:
 ```sh
 cargo install --locked utokyo-wifi
 ```
+
+To install a specific version, append `@<version>` to the crate name, for example `utokyo-wifi@0.1.0`.
 
 ## Usage
 
