@@ -1,7 +1,19 @@
 [workspace]
-git_release_enable = false  # Set to true if you do not use dist
+git_release_enable = false
 pr_branch_prefix = "release-plz/"
 pr_labels = ["release", "automated"]
 publish_timeout = "10m"
-release = true  # Set to true to enable releases
+release = true
 release_always = false
+release_commits = "^((feat|fix|perf|revert|docs)(\\([^)]*\\))?!?:|build\\(deps\\)!?:|[a-z]+(\\([^)]*\\))?!:)"
+
+[changelog]
+commit_parsers = [
+  { message = "^feat", group = "added" },
+  { message = "^fix", group = "fixed" },
+  { message = "^(perf|refactor)", group = "changed" },
+  { message = "^docs", group = "documentation" },
+  { message = "^build\\(deps\\)", group = "dependencies", scope = "" },
+  { message = "^build\\(deps-dev\\)", skip = true },
+  { message = "^.*", group = "other" },
+]
