@@ -16,10 +16,28 @@ and verify the authentication server certificate against the system CA certifica
 
 ## Installation
 
-Install from source with Cargo:
+### Prebuilt Binaries
+
+Prebuilt binaries for x86_64 and aarch64 Linux are available from [GitHub Releases](https://github.com/conjikidow/utokyo-wifi-connector/releases).
+To install the latest one into `~/.cargo/bin`, run the installer script:
 
 ```sh
-cargo install --locked --git https://github.com/conjikidow/utokyo-wifi-connector
+curl --proto '=https' --tlsv1.2 -LsSf \
+  https://github.com/conjikidow/utokyo-wifi-connector/releases/latest/download/utokyo-wifi-installer.sh | sh
+```
+
+### Cargo
+
+With [cargo-binstall](https://github.com/cargo-bins/cargo-binstall), install a prebuilt binary:
+
+```sh
+cargo binstall utokyo-wifi
+```
+
+Or build it from source:
+
+```sh
+cargo install --locked utokyo-wifi
 ```
 
 ## Usage
