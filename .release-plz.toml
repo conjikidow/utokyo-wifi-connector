@@ -5,3 +5,14 @@ pr_labels = ["release", "automated"]
 publish_timeout = "10m"
 release = true  # Set to true to enable releases
 release_always = false
+
+[changelog]
+commit_parsers = [
+  { message = "^feat", group = "added" },
+  { message = "^fix", group = "fixed" },
+  { message = "^(perf|refactor)", group = "changed" },
+  { message = "^docs", group = "documentation" },
+  { message = "^build\\(deps\\)", group = "dependencies" },
+  { message = "^build\\(deps-dev\\)", skip = true },
+  { message = "^.*", group = "other" },
+]
