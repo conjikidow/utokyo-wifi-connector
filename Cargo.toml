@@ -1,6 +1,6 @@
 [package]
 name = "utokyo-wifi"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "An unofficial command-line tool to manage connections to the UTokyo Wi-Fi and eduroam networks"
 readme = "README.md"
