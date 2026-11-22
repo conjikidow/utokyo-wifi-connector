@@ -1,13 +1,18 @@
 [package]
-name = "your-package-name"
+name = "utokyo-wifi"
 version = "0.1.0"
 edition = "2024"
-description = "A Rust package template"
+description = "An unofficial command-line tool to manage connections to the UTokyo Wi-Fi and eduroam networks"
 readme = "README.md"
-repository = "https://github.com/<owner>/<repo>"
+repository = "https://github.com/conjikidow/utokyo-wifi-connector"
 license = "Apache-2.0 OR MIT"
 
 [dependencies]
+clap = { version = "4.6.9", features = ["derive"] }
+clap_complete = "4.6.12"
+ctrlc = "3.5.3"
+dialoguer = "0.12.0"
+thiserror = "2.0.21"
 
 [profile.dist]
 inherits = "release"
