@@ -106,7 +106,7 @@ utokyo-wifi completions zsh > ~/.zfunc/_utokyo-wifi
 
 ## License
 
-Licensed under either of [Apache License, Version 2.0](LICENSE-APACHE) or [MIT license](LICENSE-MIT) at your option.
+Licensed under either of [MIT license](LICENSE-MIT) or [Apache License, Version 2.0](LICENSE-APACHE) at your option.
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this software by you,
 as defined in the Apache-2.0 license, shall be dually licensed as above, without any additional terms or conditions.
