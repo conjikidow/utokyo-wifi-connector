@@ -5,6 +5,7 @@ pr_labels = ["release", "automated"]
 publish_timeout = "10m"
 release = true
 release_always = false
+release_commits = "^((feat|fix|perf|revert|docs)(\\([^)]*\\))?!?:|build\\(deps\\)!?:|[a-z]+(\\([^)]*\\))?!:)"
 
 [changelog]
 commit_parsers = [
