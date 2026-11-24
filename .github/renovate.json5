@@ -8,8 +8,13 @@
     '.github/workflows/release.yml',
   ],
   minimumReleaseAge: '3 days',
+  prHourlyLimit: 0,
+  prConcurrentLimit: 0,
   gitIgnoredAuthors: [
     'github-actions[bot]@users.noreply.github.com',
+  ],
+  schedule: [
+    '* * 1 * *',
   ],
   labels: [
     'automated',
@@ -214,15 +219,6 @@
         'commitizen-tools/commitizen',
       ],
       groupName: 'commitizen',
-    },
-    {
-      description: 'Update the Renovate that validates this config only weekly, as it releases several times a day',
-      extends: [
-        'schedule:weekly',
-      ],
-      matchDepNames: [
-        'renovatebot/renovate',
-      ],
     },
     {
       matchDepNames: [
