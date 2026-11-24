@@ -77,6 +77,7 @@ jobs:
             rust:
               - '**/*.rs'
               - 'rust-toolchain.toml'
+              - '.cargo/**'
               - '**/Cargo.toml'
               - 'Cargo.lock'
               - '.rustfmt.toml'
