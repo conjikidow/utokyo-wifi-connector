@@ -477,6 +477,43 @@ jobs:
       - name: Test Rust
         run: cargo test --all-features --locked
 
+  test-rust-msrv:
+    name: Test Rust on MSRV
+    needs: determine-changes
+    if: >-
+      needs.determine-changes.outputs.rust == 'true'
+      || needs.determine-changes.outputs.github-actions-ci == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Read the MSRV
+        id: msrv
+        run: |
+          msrv="$(sed -n 's/^rust-version = "\(.*\)"$/\1/p' Cargo.toml)"
+          if [[ -z ${msrv} ]]; then
+            echo '::error file=Cargo.toml,title=msrv::rust-version is not set.'
+            exit 1
+          fi
+          echo "msrv=${msrv}" >> "${GITHUB_OUTPUT}"
+
+      - name: Install Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@a188e68d0fd2bd36ad51dccb2b07ba6e75105f30 # v2.0.1
+        with:
+          toolchain: ${{ steps.msrv.outputs.msrv }}
+          build-warnings: warn
+          matcher: false
+
+      - name: Test Rust
+        run: cargo test --all-features --locked
+
   check-spelling:
     name: Check spelling
     runs-on: ubuntu-latest
@@ -566,6 +603,7 @@ jobs:
       - lint-rust
       - build-rust
       - test-rust
+      - test-rust-msrv
       - check-spelling
       - lint-commit-messages
       - run-prek-hooks
