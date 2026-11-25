@@ -5,12 +5,12 @@
 [![prek](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/j178/prek/master/docs/assets/badge-v0.json)](https://github.com/j178/prek)
 [![CI](https://github.com/conjikidow/utokyo-wifi-connector/actions/workflows/ci.yml/badge.svg)](https://github.com/conjikidow/utokyo-wifi-connector/actions/workflows/ci.yml)
 
-An unofficial command-line tool to manage connections to the [UTokyo Wi-Fi](https://utelecon.adm.u-tokyo.ac.jp/en/utokyo_wifi/) and eduroam networks.
+An unofficial command-line tool for Linux to manage connections to the [UTokyo Wi-Fi](https://utelecon.adm.u-tokyo.ac.jp/en/utokyo_wifi/)
+and eduroam networks provided by the University of Tokyo.
 
 `utokyo-wifi` creates NetworkManager connections for the `0000UTokyo` (UTokyo Wi-Fi) and `eduroam` networks
 with your UTokyo Wi-Fi account.
-The connections use PEAP with MSCHAPv2
-and verify the authentication server certificate against the system CA certificates and the `u-tokyo.ac.jp` domain.
+The connections verify the authentication server certificate, so that your password is not exposed to a fake access point.
 
 ## Requirements
 
@@ -29,7 +29,7 @@ curl --proto '=https' --tlsv1.2 -LsSf \
   https://github.com/conjikidow/utokyo-wifi-connector/releases/latest/download/utokyo-wifi-installer.sh | sh
 ```
 
-To install a specific version, replace `latest/download` with `download/v<version>` in the URL, for example `download/v0.1.0`.
+To install a specific version, replace `latest/download` with `download/v<version>` in the URL, for example `download/v0.1.2`.
 
 ### Cargo
 
@@ -45,7 +45,7 @@ Or build it from source, which requires Rust 1.85 or later:
 cargo install --locked utokyo-wifi
 ```
 
-To install a specific version, append `@<version>` to the crate name, for example `utokyo-wifi@0.1.0`.
+To install a specific version, append `@<version>` to the crate name, for example `utokyo-wifi@0.1.2`.
 
 ## Usage
 
@@ -81,7 +81,8 @@ otherwise `setup` fails without changing anything:
 utokyo-wifi setup --network eduroam
 ```
 
-To run without prompts, pass the user ID and the password on standard input:
+To run without prompts, pass the user ID with `--user-id` and add `--yes`.
+Then pass the password on standard input with `--password-stdin`:
 
 ```sh
 utokyo-wifi setup --user-id u2499999 --yes --password-stdin < password-file
