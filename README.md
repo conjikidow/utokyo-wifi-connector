@@ -5,6 +5,8 @@
 [![prek](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/j178/prek/master/docs/assets/badge-v0.json)](https://github.com/j178/prek)
 [![CI](https://github.com/conjikidow/utokyo-wifi-connector/actions/workflows/ci.yml/badge.svg)](https://github.com/conjikidow/utokyo-wifi-connector/actions/workflows/ci.yml)
 
+**English** | [日本語](README.ja.md)
+
 An unofficial command-line tool for Linux to manage connections to the [UTokyo Wi-Fi](https://utelecon.adm.u-tokyo.ac.jp/en/utokyo_wifi/)
 and eduroam networks provided by the University of Tokyo.
 
