@@ -303,3 +303,12 @@ jobs:
     with:
       plan: ${{ needs.plan.outputs.val }}
     secrets: inherit
+
+  custom-test-installation:
+    needs:
+      - plan
+      - announce
+    uses: $/.github/workflows/test-installation.yml
+    with:
+      plan: ${{ needs.plan.outputs.val }}
+    secrets: inherit

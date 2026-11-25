@@ -21,7 +21,7 @@ install-path = "CARGO_HOME"
 # Whether to install an updater program
 install-updater = false
 # Custom jobs to run after the release is announced
-post-announce-jobs = ["./set-release-title"]
+post-announce-jobs = ["./set-release-title", "./test-installation"]
 
 [dist.github-action-commits]
 "actions/checkout" = "3d3c42e5aac5ba805825da76410c181273ba90b1"  # v7.0.1
