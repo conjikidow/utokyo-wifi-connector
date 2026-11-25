@@ -5,7 +5,7 @@
 [![prek](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/j178/prek/master/docs/assets/badge-v0.json)](https://github.com/j178/prek)
 [![CI](https://github.com/conjikidow/utokyo-wifi-connector/actions/workflows/ci.yml/badge.svg)](https://github.com/conjikidow/utokyo-wifi-connector/actions/workflows/ci.yml)
 
-An unofficial command-line tool to manage connections to the UTokyo Wi-Fi and eduroam networks.
+An unofficial command-line tool to manage connections to the [UTokyo Wi-Fi](https://utelecon.adm.u-tokyo.ac.jp/en/utokyo_wifi/) and eduroam networks.
 
 `utokyo-wifi` creates NetworkManager connections for the `0000UTokyo` (UTokyo Wi-Fi) and `eduroam` networks
 with your UTokyo Wi-Fi account.
