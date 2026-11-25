@@ -39,7 +39,7 @@ With [cargo-binstall](https://github.com/cargo-bins/cargo-binstall), install a p
 cargo binstall utokyo-wifi
 ```
 
-Or build it from source:
+Or build it from source, which requires Rust 1.85 or later:
 
 ```sh
 cargo install --locked utokyo-wifi
