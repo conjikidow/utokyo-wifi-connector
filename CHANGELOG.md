@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.1.3](https://github.com/conjikidow/utokyo-wifi-connector/compare/v0.1.2...v0.1.3) - 2026-11-25
+
+### Documentation
+
+- add a Japanese README ([#28](https://github.com/conjikidow/utokyo-wifi-connector/pull/28))
+- state the target platform and clarify the README ([#27](https://github.com/conjikidow/utokyo-wifi-connector/pull/27))
+- link the official UTokyo Wi-Fi page ([#23](https://github.com/conjikidow/utokyo-wifi-connector/pull/23))
+
 ## [0.1.2](https://github.com/conjikidow/utokyo-wifi-connector/compare/v0.1.1...v0.1.2) - 2026-11-25
 
 ### Documentation
