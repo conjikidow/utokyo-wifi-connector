@@ -2,6 +2,11 @@
 default_install_hook_types: [pre-commit, commit-msg, pre-push]
 default_stages: [pre-commit]
 
+update:
+  repos:
+    https://github.com/lycheeverse/lychee:
+      include_tags: ['lychee-v*']
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
@@ -79,6 +84,13 @@ repos:
     hooks:
       - id: yamllint
         args: [--format=standard, --strict]
+
+  - repo: https://github.com/lycheeverse/lychee
+    rev: 2bba271688c1abb1503097a064e6c3bc1d1b6a9b  # frozen: lychee-v0.24.2
+    hooks:
+      - id: lychee
+        args: [--no-progress, --offline, .]
+        pass_filenames: false
 
   - repo: https://github.com/commitizen-tools/commitizen
     rev: e153e14bdac00edc46e390e4f99cbc6bbf808ef6  # frozen: v4.19.4
