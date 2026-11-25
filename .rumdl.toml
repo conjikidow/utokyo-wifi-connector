@@ -1,6 +1,9 @@
 [global]
 extend-enable = ["MD060", "MD070", "MD080", "MD083", "MD084", "MD087", "MD091", "MD095"]
 
+[per-file-ignores]
+"CHANGELOG.md" = ["MD044", "MD080"]
+
 [MD013]
 line-length = 120
 
