@@ -1,6 +1,6 @@
 [package]
 name = "utokyo-wifi"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 rust-version = "1.85"
 description = "An unofficial command-line tool to manage connections to the UTokyo Wi-Fi and eduroam networks"
