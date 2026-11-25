@@ -114,6 +114,19 @@
       ],
       fileFormat: 'yaml',
       matchStrings: [
+        'jobs.*.steps[$substringBefore(uses, "@") = "lycheeverse/lychee-action"].{ "currentValue": with.lycheeVersion }',
+      ],
+      depNameTemplate: 'lycheeverse/lychee',
+      datasourceTemplate: 'github-releases',
+      extractVersionTemplate: '^lychee-(?<version>v\\d+\\.\\d+\\.\\d+)$',
+    },
+    {
+      customType: 'jsonata',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
+      ],
+      fileFormat: 'yaml',
+      matchStrings: [
         'jobs.*.steps[$exists(env.RENOVATE_VERSION)].{ "currentValue": env.RENOVATE_VERSION }',
       ],
       depNameTemplate: 'renovatebot/renovate',
@@ -238,6 +251,23 @@
         'commitizen-tools/commitizen',
       ],
       groupName: 'commitizen',
+    },
+    {
+      description: 'Compare lychee hook versions by their lychee-vX.Y.Z tags, as the default semver-coerced versioning takes them for unstable and never offers a version update',
+      matchManagers: [
+        'pre-commit',
+      ],
+      matchDepNames: [
+        'lycheeverse/lychee',
+      ],
+      versioning: 'regex:^lychee-v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$',
+    },
+    {
+      matchDepNames: [
+        'lycheeverse/lychee',
+        'lycheeverse/lychee-action',
+      ],
+      groupName: 'lychee',
     },
     {
       matchDepNames: [
