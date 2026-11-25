@@ -48,6 +48,19 @@
       ],
       fileFormat: 'yaml',
       matchStrings: [
+        'jobs.*.steps[$substringBefore(uses, "@") = "cargo-bins/cargo-binstall"].{ "currentValue": with.version }',
+      ],
+      depNameTemplate: 'cargo-bins/cargo-binstall',
+      datasourceTemplate: 'github-releases',
+      extractVersionTemplate: '^v(?<version>.+)$',
+    },
+    {
+      customType: 'jsonata',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
+      ],
+      fileFormat: 'yaml',
+      matchStrings: [
         'jobs.*.steps[$substringBefore(uses, "@") = "commitizen-tools/setup-cz"].{ "currentValue": with.version }',
       ],
       depNameTemplate: 'commitizen-tools/commitizen',
@@ -213,6 +226,12 @@
         'patch',
       ],
       automerge: true,
+    },
+    {
+      matchDepNames: [
+        'cargo-bins/cargo-binstall',
+      ],
+      groupName: 'cargo-binstall',
     },
     {
       matchDepNames: [
